@@ -1,0 +1,31 @@
+<ion-content>
+  <div class="logo-div bgcolor-primary">
+    <img class="logo-css" src="./assets/img/logo.png" />
+  </div>
+
+  <div class="main-div">
+    <h2 [style.color]="'#6C63FF'" style="text-align: center;">Welcome</h2>
+    <form [formGroup]="mainForm">
+      <ion-item lines="full" class="info-item">
+        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="person-outline"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Username</ion-label>
+        <ion-input formControlName="username" type="text" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="full" class="info-item">
+        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="lock-closed-outline"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Password</ion-label>
+        <ion-input formControlName="password" type="password" required></ion-input>
+      </ion-item>
+    </form>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" class="newInv-btn" (click)="openPage('/home')" [style.--color]="'#ffffff'"
+          [style.--border-color]="'#6C63FF'">
+          Login
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

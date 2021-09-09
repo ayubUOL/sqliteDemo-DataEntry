@@ -1,0 +1,50 @@
+.bgcolor-primary {
+  background: #6c63ff !important;
+}
+
+.logo-css {
+  height: 120px;
+  width: 120px;
+  display: block;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 60px;
+  margin-top: 40px;
+}
+
+.logo-div {
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-div {
+  margin: 70px 18px 20px 18px;
+}
+
+.info-item {
+  --padding-start: 0px !important;
+  --padding-end: 0px !important;
+  --padding-inline-end: 0px !important;
+  --inner-padding-end: 0px !important;
+}
+
+.info-fields-icon {
+  margin: 15px 5px 0px 0px !important;
+}
+
+.newInv-btn {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin: 20px 0px 0px 0px;
+  // margin-bottom: 5px;
+  height: 35px;
+  --border-width: 1px !important;
+  --border-radius: 5px;
+  --padding-start: 0px !important;
+  --padding-end: 0px !important;
+}
