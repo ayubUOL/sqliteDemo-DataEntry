@@ -78,6 +78,7 @@ export class LoginPage implements OnInit {
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("access_token", JSON.stringify(data.access_token));
           this.global.access_token = data.access_token;
+          this.global.userId = data.user.id;
           this.categoryToDB();
           this.navCtrl.navigateRoot(page);
         } else {

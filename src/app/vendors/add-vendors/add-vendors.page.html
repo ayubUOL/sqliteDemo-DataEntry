@@ -8,7 +8,7 @@
       <ion-col size="8" class="no-padding"></ion-col>
   
       <ion-col size="4" class="no-padding text-right"> 
-        <ion-label class="no-margin" [style.color]="'#6C63FF'">
+        <ion-label class="no-margin" [style.color]="'#a43096'">
           <h2>{{ currentTime }}</h2>
           <h2>{{ currentDate | date:'mediumDate' }}</h2>
         </ion-label>
@@ -17,46 +17,46 @@
     
     <form [formGroup]="mainForm">
       <ion-item lines="full" class="info-item" id="customerName" (click)="inputChanged('customerName')">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="person"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Customer name</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="person"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Customer name</ion-label>
         <ion-input formControlName="name" type="text" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item" id="businessName" (click)="inputChanged('businessName')">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="briefcase"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Business name</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="briefcase"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Business name</ion-label>
         <ion-input formControlName="businessname" type="text" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item" id="businessType" (click)="openBusinessList()">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="business"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Business type</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="business"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Business type</ion-label>
         <ion-input [value]="businessType" type="text" [(ngModel)]="searchItem" (ionChange)="searchCategory()" [ngModelOptions]="{standalone: true}"></ion-input>
-        <ion-icon class="info-fields-icon-end" [style.color]="'#6C63FF'" slot="end" name="chevron-down"></ion-icon>
+        <ion-icon class="info-fields-icon-end" [style.color]="'#a43096'" slot="end" name="chevron-down"></ion-icon>
       </ion-item>
 
       <ion-item lines="full" class="info-item" id="mobile" (click)="inputChanged('mobile')">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="phone-portrait-outline"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Mobile</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="phone-portrait-outline"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Mobile</ion-label>
         <ion-input formControlName="mobile" type="tel" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item" id="whatsapp" (click)="inputChanged('whatsapp')">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="chatbubble-ellipses"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Whatsapp</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="chatbubble-ellipses"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Whatsapp</ion-label>
         <ion-input formControlName="whatsapp" type="tel" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item" id="address" (click)="inputChanged('address')">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="storefront"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Address</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="storefront"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Address</ion-label>
         <ion-input formControlName="address" type="text" required></ion-input>
-        <ion-icon class="info-fields-icon-end" [style.color]="'#6C63FF'" slot="end" name="chevron-down"></ion-icon>
+        <ion-icon class="info-fields-icon-end" [style.color]="'#a43096'" slot="end" name="chevron-down"></ion-icon>
       </ion-item>
 
       <ion-item lines="none" class="info-item" id="image" (click)="inputChanged('image')">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="camera" (click)="imagePickAlert()"></ion-icon>
-        <ion-label class="label-fixed" [style.color]="'#6C63FF'" position="fixed" (click)="imagePickAlert()">Take shop, business card or client image</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="camera" (click)="imagePickAlert()"></ion-icon>
+        <ion-label class="label-fixed" [style.color]="'#a43096'" position="fixed" (click)="imagePickAlert()">Take shop, business card or client image</ion-label>
       </ion-item>
     </form>
 
@@ -71,7 +71,7 @@
 
       <ion-col size="10" class="no-padding search-col">
         <ion-button fill="outline" expand="block" class="newInv-btn invoice-shadow"
-        [style.--color]="'#6C63FF'" [style.--border-color]="'#6C63FF'" (click)="addBusinessType()">
+        [style.--color]="'#a43096'" [style.--border-color]="'#a43096'" (click)="addBusinessType()">
           <ion-icon slot="start" name="add"></ion-icon>
           Add Business Type
         </ion-button>
@@ -120,29 +120,29 @@
   <ion-row>
     <ion-col size="3">
       <ion-button fill="outline" expand="block" class="newInv-btn"
-      [style.--color]="'#6C63FF'" [style.--border-color]="'#6C63FF'" (click)="goBack()">
-        <ion-icon slot="start" [style.color]="'#6C63FF'" name="chevron-back-outline"></ion-icon>  
+      [style.--color]="'#a43096'" [style.--border-color]="'#a43096'" (click)="goBack()">
+        <ion-icon slot="start" [style.color]="'#a43096'" name="chevron-back-outline"></ion-icon>  
         Back
       </ion-button>
     </ion-col>
 
     <ion-col size="3">
       <ion-button expand="block" class="newInv-btn" (click)="resetForm()"
-      [style.--color]="'#ffffff'" [style.--border-color]="'#6C63FF'">
+      [style.--color]="'#ffffff'" [style.--border-color]="'#a43096'">
         New
       </ion-button>
     </ion-col>
 
     <ion-col size="3">
       <ion-button expand="block" class="newInv-btn" (click)="saveForm()"
-      [style.--color]="'#ffffff'" [style.--border-color]="'#6C63FF'">
+      [style.--color]="'#ffffff'" [style.--border-color]="'#a43096'">
         Save
       </ion-button>
     </ion-col>
 
     <ion-col size="3">
       <ion-button expand="block" class="newInv-btn"
-      [style.--color]="'#ffffff'" [style.--border-color]="'#6C63FF'" (click)="goBack()">
+      [style.--color]="'#ffffff'" [style.--border-color]="'#a43096'" (click)="goBack()">
         Records
       </ion-button>
     </ion-col>

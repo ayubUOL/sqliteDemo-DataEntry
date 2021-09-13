@@ -5,14 +5,11 @@ import { ToastController, AlertController, Platform, NavController, LoadingContr
 import { DbService } from '../../services/db.service';
 import { ServerService } from '../../services/server.service';
 
+import { GlobalVariable } from '../../global';
+
 // Plugins
-import { Media, MediaObject } from '@ionic-native/media/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
-import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { Base64 } from '@ionic-native/base64/ngx';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-vendors',
@@ -42,7 +39,8 @@ export class AddVendorsPage implements OnInit {
   constructor(private db: DbService, public formBuilder: FormBuilder,
     private toast: ToastController, public alertController: AlertController,
     private camera: Camera, private file: File, public loadingCtrl: LoadingController,
-    private restAPI: ServerService, public platform: Platform, public navCtrl: NavController) { }
+    private restAPI: ServerService, public platform: Platform, public navCtrl: NavController,
+    public global: GlobalVariable) { }
 
   ngOnInit() {
     this.db.dbState().subscribe((res) => {
@@ -241,7 +239,7 @@ export class AddVendorsPage implements OnInit {
 
   openCamera() {
     const options: CameraOptions = {
-      quality: 100,
+      quality: 20,
       sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
@@ -263,7 +261,7 @@ export class AddVendorsPage implements OnInit {
   openGallery() {
     const options: CameraOptions =
     {
-      quality: 100,
+      quality: 20,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
@@ -337,9 +335,11 @@ export class AddVendorsPage implements OnInit {
         console.log("After wirting to file -> ", entry);
 
         let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        var unixTimestamp = Math.round(+new Date()/1000);
+
         this.db.addVendors(this.mainForm.value.name, this.mainForm.value.businessname,
           this.mainForm.value.mobile, this.mainForm.value.whatsapp, this.mainForm.value.categoryid,
-          this.mainForm.value.address, this.userid, currentTime, entry.nativeURL, fileBlob
+          this.mainForm.value.address, this.global.userId, currentTime, entry.nativeURL, unixTimestamp
         ).then((res) => {
           this.getVendors();
           this.mainForm.reset();
@@ -348,7 +348,7 @@ export class AddVendorsPage implements OnInit {
           this.mainForm.controls['image'].setValue('');
           this.presentToast('Record Saved');
           loading.dismiss();
-        })
+        });
 
       }).catch(err => {
         loading.dismiss();
@@ -361,9 +361,11 @@ export class AddVendorsPage implements OnInit {
           // this.setImageSrc(entry.nativeURL, entry);
 
           let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+          var unixTimestamp = Math.round(+new Date()/1000);
+
           this.db.addVendors(this.mainForm.value.name, this.mainForm.value.businessname,
             this.mainForm.value.mobile, this.mainForm.value.whatsapp, this.mainForm.value.categoryid,
-            this.mainForm.value.address, this.userid, currentTime, entry.nativeURL, fileBlob
+            this.mainForm.value.address, this.global.userId, currentTime, entry.nativeURL, unixTimestamp
           ).then((res) => {
             this.getVendors();
             this.presentToast('Record Saved');

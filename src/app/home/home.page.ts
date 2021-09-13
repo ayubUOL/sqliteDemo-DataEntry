@@ -29,7 +29,7 @@ export class HomePage {
     this.navCtrl.navigateForward(page);
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.db.dbState().subscribe((res) => {
       if (res) {
         this.getCategories();
@@ -42,7 +42,7 @@ export class HomePage {
         console.log("- Is Online - ", that.vendors_list)
         if (that.vendors_list.length > 0) {
           that.vendors_list.forEach(lead => {
-            if (lead.isUploaded == 0) {
+            if (lead.isUploaded == 0 && (lead.isChanged == 0 || lead.isChanged == 1)) {
               let formData = new FormData();
               formData.append('lead_name', lead.name)
               formData.append('business_name', lead.businessname)
@@ -50,6 +50,7 @@ export class HomePage {
               formData.append('whatsapp', lead.whatsapp)
               formData.append('address', lead.address)
               formData.append('category_id', lead.categoryid)
+              formData.append('ins_time', lead.ins_time)
 
               let filename = lead.image.substr(lead.image.lastIndexOf('/') + 1);
               if (filename.includes("?")) {
@@ -58,12 +59,59 @@ export class HomePage {
               let dirpath = lead.image.substr(0, lead.image.lastIndexOf('/') + 1);
               dirpath = dirpath.includes('file://') ? dirpath : 'file://' + dirpath;
 
-              // that.file.readAsArrayBuffer(dirpath, filename).then((blob) => {
-              //   formData.append('image', blob);
-              //   that.uploadLeads(formData, lead)
-              // }, (err) => {
-              //   console.log("Move File Err -> ", err);
-              // });
+              lead.isUploaded = 1;
+              lead.isChanged = 0;
+
+              that.file.readAsArrayBuffer(dirpath, filename).then((arrBuffer) => {
+                formData.append('image', new Blob([arrBuffer], { type: "image/jpg" }), filename);
+
+                let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
+                that.db.updateVendor(lead.id, lead.name, lead.businessname, lead.mobile,
+                  lead.whatsapp, lead.categoryid, lead.address, lead.userid, currentTime,
+                  lead.image, lead.isUploaded, lead.isChanged, lead.ins_time
+                ).then((res) => { });
+
+                that.uploadLeads(formData, lead);
+              }, (err) => {
+                console.log("Move File Err -> ", err);
+              });
+            }
+
+            if (lead.isUploaded == 1 && lead.isChanged == 1) {
+              let formData = new FormData();
+              formData.append('lead_name', lead.name)
+              formData.append('business_name', lead.businessname)
+              formData.append('mobile', lead.mobile)
+              formData.append('whatsapp', lead.whatsapp)
+              formData.append('address', lead.address)
+              formData.append('category_id', lead.categoryid)
+              formData.append('ins_time', lead.ins_time)
+              formData.append('lead_id', lead.id)
+
+              let filename = lead.image.substr(lead.image.lastIndexOf('/') + 1);
+              if (filename.includes("?")) {
+                filename = filename.substr(0, filename.lastIndexOf('?'));
+              }
+              let dirpath = lead.image.substr(0, lead.image.lastIndexOf('/') + 1);
+              dirpath = dirpath.includes('file://') ? dirpath : 'file://' + dirpath;
+
+              lead.isChanged = 0;
+
+              that.file.readAsArrayBuffer(dirpath, filename).then((arrBuffer) => {
+                formData.append('image', new Blob([arrBuffer], { type: "image/jpg" }), filename);
+
+                let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
+                that.db.updateVendor(lead.id, lead.name, lead.businessname, lead.mobile,
+                  lead.whatsapp, lead.categoryid, lead.address, lead.userid, currentTime,
+                  lead.image, lead.isUploaded, lead.isChanged, lead.ins_time
+                ).then((res) => { });
+
+                that.updateLeads(formData, lead);
+              }, (err) => {
+                console.log("Move File Err -> ", err);
+              });
             }
           });
         }
@@ -77,16 +125,17 @@ export class HomePage {
     let response = this.restAPI.addLeads(formData)
     response.subscribe((data: any) => {
       console.log("Lead Uploaded -> ", data)
+      this.getVendors();
+    }, error => {
+      console.log(error);
+    });
+  }
 
-      lead.isUploaded = 1;
-      let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-
-      this.db.updateVendor(lead.id, lead.name, lead.businessname, lead.mobile,
-        lead.whatsapp, lead.categoryid, lead.address, lead.userid, currentTime,
-        lead.image, lead.isUploaded, lead.imgBlob
-      ).then((res) => {
-        this.getVendors();
-      })
+  async updateLeads(formData, lead) {
+    let response = this.restAPI.updateLead(formData)
+    response.subscribe((data: any) => {
+      console.log("Lead Updated -> ", data)
+      this.getVendors();
     }, error => {
       console.log(error);
     });
@@ -155,5 +204,13 @@ export class HomePage {
       }
     };
     this.navCtrl.navigateForward('/edit-vendors', navigationExtras);
+  }
+
+  logout() {
+    clearInterval(this.syncInterval)
+    localStorage.clear();
+    this.global.access_token = '';
+    this.global.userId = '';
+    this.navCtrl.navigateRoot('/login');
   }
 }

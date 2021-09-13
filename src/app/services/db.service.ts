@@ -9,6 +9,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Vendor } from './vendor';
 import { Category } from './category';
 
+import { GlobalVariable } from '../global';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +22,7 @@ export class DbService {
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private platform: Platform, private sqlite: SQLite,
-    private httpClient: HttpClient) {
+    public global: GlobalVariable) {
 
     this.platform.ready().then(() => {
       if (localStorage.getItem("app_firstRun") == 'false' || localStorage.getItem("app_firstRun") == null) {
@@ -34,7 +36,7 @@ export class DbService {
             .then(() => console.log('Executed SQL'))
             .catch(e => console.log(e));
   
-          db.executeSql('create table leads(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR, businessname VARCHAR, mobile VARCHAR, whatsapp VARCHAR, categoryid INTEGER, address TEXT, userid INTEGER, inserttime VARCHAR, image TEXT, isUploaded INTEGER, imgBlob VARCHAR)', [])
+          db.executeSql('create table leads(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR, businessname VARCHAR, mobile VARCHAR, whatsapp VARCHAR, categoryid INTEGER, address TEXT, userid VARCHAR, inserttime VARCHAR, image TEXT, isUploaded INTEGER, isChanged INTEGER, ins_time INTEGER)', [])
             .then(() => console.log('Executed SQL'))
             .catch(e => console.log(e));
 
@@ -79,7 +81,7 @@ export class DbService {
   }
 
   getVendors() {
-    return this.storage.executeSql('SELECT * FROM leads', []).then(res => {
+    return this.storage.executeSql('SELECT * FROM leads WHERE userid = ?', [ this.global.userId ]).then(res => {
       let items = [];
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
@@ -90,7 +92,8 @@ export class DbService {
             mobile: res.rows.item(i).mobile, whatsapp: res.rows.item(i).whatsapp,
             categoryid: res.rows.item(i).categoryid, address: res.rows.item(i).address,
             image: res.rows.item(i).image, time: res.rows.item(i).inserttime, userid: res.rows.item(i).userid,
-            isUploaded: res.rows.item(i).isUploaded, imgBlob: res.rows.item(i).imgBlob,
+            isUploaded: res.rows.item(i).isUploaded, isChanged: res.rows.item(i).isChanged, 
+            ins_time: res.rows.item(i).ins_time
           });
         }
       }
@@ -99,17 +102,17 @@ export class DbService {
   }
 
   // Add Vendors
-  addVendors(name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, imgBlob) {
-    let data = [name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, 0, imgBlob];
-    return this.storage.executeSql('INSERT INTO leads (name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, isUploaded, imgBlob) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(res => {
+  addVendors(name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, ins_time) {
+    let data = [name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, 0, 0, ins_time];
+    return this.storage.executeSql('INSERT INTO leads (name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, isUploaded, isChanged, ins_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(res => {
       this.getVendors();
     });
   }
 
   // Update
-  updateVendor(id, name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, isUploaded, imgBlob) {
-    let data = [name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, isUploaded, imgBlob, id];
-    return this.storage.executeSql('UPDATE leads SET name = ?, businessname = ?, mobile = ?, whatsapp = ?, categoryid = ?, address = ?, userid = ?, inserttime = ?, image = ?, isUploaded = ?, imgBlob = ? WHERE id = ?', data)
+  updateVendor(id, name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, isUploaded, isChanged, ins_time) {
+    let data = [name, businessname, mobile, whatsapp, categoryid, address, userid, inserttime, image, isUploaded, isChanged, ins_time, id];
+    return this.storage.executeSql('UPDATE leads SET name = ?, businessname = ?, mobile = ?, whatsapp = ?, categoryid = ?, address = ?, userid = ?, inserttime = ?, image = ?, isUploaded = ?, isChanged = ?, ins_time = ? WHERE id = ?', data)
     .then(data => {
       this.getVendors();
     })

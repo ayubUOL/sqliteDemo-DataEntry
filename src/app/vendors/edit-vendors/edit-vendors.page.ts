@@ -6,6 +6,8 @@ import { ToastController, AlertController, Platform, NavController, LoadingContr
 import { DbService } from '../../services/db.service';
 import { ServerService } from '../../services/server.service';
 
+import { GlobalVariable } from '../../global';
+
 // Plugins
 import { Media, MediaObject } from '@ionic-native/media/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -30,9 +32,7 @@ export class EditVendorsPage implements OnInit {
 
   imageURI: any = '';
   categoryid = '';
-  userid = 1;
   isUploaded: any;
-  imgBlob: any;
   private win: any = window;
   itemId = '';
 
@@ -46,7 +46,7 @@ export class EditVendorsPage implements OnInit {
     private toast: ToastController, public navCtrl: NavController, private router: Router,
     private route: ActivatedRoute, public alertController: AlertController,
     private camera: Camera, private file: File, public platform: Platform,
-    private restAPI: ServerService, public loadingCtrl: LoadingController) {
+    private restAPI: ServerService, public loadingCtrl: LoadingController, public global: GlobalVariable) {
 
     this.db.dbState().subscribe((res) => {
       if (res) {
@@ -73,7 +73,6 @@ export class EditVendorsPage implements OnInit {
 
           this.itemId = detail.id;
           this.isUploaded = detail.isUploaded;
-          this.imgBlob = detail.imgBlob;
           this.mainForm.controls['name'].setValue(detail.name);
           this.mainForm.controls['businessname'].setValue(detail.businessname);
           this.mainForm.controls['mobile'].setValue(detail.mobile);
@@ -85,6 +84,7 @@ export class EditVendorsPage implements OnInit {
           this.category_list.forEach(element => {
             if(element.id == this.mainForm.value.categoryid){
               this.businessType = element.category_name;
+              this.searchItem = element.category_name;
             }
           });
           console.log("Detail -> ", detail, this.category_list)
@@ -212,7 +212,7 @@ export class EditVendorsPage implements OnInit {
     await alert.present();
   }
 
-  editData(){ 
+  async editData(){ 
     if (!this.mainForm.valid) {
       this.submitAttempt = true;
       this.presentToast('Please fill the required fields');
@@ -220,19 +220,29 @@ export class EditVendorsPage implements OnInit {
       this.submitAttempt = false;
       
       if(this.imageURI == ''){
+        const loading = await this.loadingCtrl.create({
+          message: 'Updating image...',
+          duration: 2000
+        });
+        await loading.present();
+
         // if image not changed
         let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        var unixTimestamp = Math.round(+new Date()/1000);
+
         this.db.updateVendor(this.itemId, this.mainForm.value.name, this.mainForm.value.businessname,
           this.mainForm.value.mobile, this.mainForm.value.whatsapp, this.mainForm.value.categoryid,
-          this.mainForm.value.address, this.userid, currentTime, this.mainForm.value.image, this.isUploaded, this.imgBlob
+          this.mainForm.value.address, this.global.userId, currentTime, this.mainForm.value.image, this.isUploaded, 1, unixTimestamp
         ).then((res) => {
           this.getVendors();
           this.mainForm.reset();
           this.mainForm.controls['image'].setValue('');
           this.presentToast('Record Saved');
           this.openPage('/home');
+          loading.dismiss();
         }, err => {
           console.log("Update query Err -> ", err)
+          loading.dismiss();
         });
       } else {
         // if image is changed
@@ -333,7 +343,13 @@ export class EditVendorsPage implements OnInit {
     }
   }
 
-  moveFile(dirpath, fileurl: string, name) {
+  async moveFile(dirpath, fileurl: string, name) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating image...',
+      duration: 2000
+    });
+    await loading.present();
+
     this.file.readAsArrayBuffer(dirpath, name).then((result) => {
       console.log("Res read as buffer -> ", result);
       var fileblob = result
@@ -345,27 +361,38 @@ export class EditVendorsPage implements OnInit {
         this.writeFileToDir(this.file.externalApplicationStorageDirectory, name, fileblob);
       }
     }, (err) => {
+      loading.dismiss();
       console.log("Move File -> ", err);
     });
   }
 
-  writeFileToDir(dirType, fileName, fileBlob) {
+  async writeFileToDir(dirType, fileName, fileBlob) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating data...',
+      duration: 2000
+    });
+    await loading.present();
+
     this.file.checkDir(dirType, 'RenneTechChatImg').then(_ => {
       this.file.writeFile(dirType + 'RenneTechChatImg/', fileName, fileBlob, { replace: false }).then(entry => {
 
         let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        var unixTimestamp = Math.round(+new Date()/1000);
+
         this.db.updateVendor(this.itemId, this.mainForm.value.name, this.mainForm.value.businessname,
           this.mainForm.value.mobile, this.mainForm.value.whatsapp, this.mainForm.value.categoryid,
-          this.mainForm.value.address, this.userid, currentTime, entry.nativeURL, this.isUploaded, fileBlob
+          this.mainForm.value.address, this.global.userId, currentTime, entry.nativeURL, this.isUploaded, 1, unixTimestamp
         ).then((res) => {
           this.getVendors();
           this.mainForm.reset();
           this.mainForm.controls['image'].setValue('');
           this.presentToast('Record Saved');
           this.openPage('/home');
+          loading.dismiss();
         });
 
       }).catch(err => {
+        loading.dismiss();
         console.log("Write to Dir err -> ", err);
       })
     }).catch(err => {
@@ -375,21 +402,26 @@ export class EditVendorsPage implements OnInit {
           // this.setImageSrc(entry.nativeURL, entry);
 
           let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+          var unixTimestamp = Math.round(+new Date()/1000);
+
           this.db.updateVendor(this.itemId,this.mainForm.value.name, this.mainForm.value.businessname,
             this.mainForm.value.mobile, this.mainForm.value.whatsapp, this.mainForm.value.categoryid,
-            this.mainForm.value.address, this.userid, currentTime, entry.nativeURL, this.isUploaded, fileBlob
+            this.mainForm.value.address, this.global.userId, currentTime, entry.nativeURL, this.isUploaded, 1, unixTimestamp
           ).then((res) => {
             this.getVendors();
             this.presentToast('Record Saved');
             this.mainForm.reset();
             this.mainForm.controls['image'].setValue('');
             this.openPage('/home');
+            loading.dismiss();
           })
 
         }).catch(err => {
+          loading.dismiss();
           console.log("Write to Dir err -> ", err);
         });
       }).catch(err => {
+        loading.dismiss();
         console.log("Create Dir err -> ", err);
       });
     });

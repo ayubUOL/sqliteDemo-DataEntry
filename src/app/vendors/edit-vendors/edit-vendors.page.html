@@ -4,7 +4,7 @@
       <ion-col size="8" class="no-padding"></ion-col>
   
       <ion-col size="4" class="no-padding text-right"> 
-        <ion-label class="no-margin" [style.color]="'#6C63FF'">
+        <ion-label class="no-margin" [style.color]="'#a43096'">
           <h2>{{ currentTime }}</h2>
           <h2>{{ currentDate | date:'mediumDate' }}</h2>
         </ion-label>
@@ -17,50 +17,50 @@
 
     <form [formGroup]="mainForm">
       <ion-item lines="full" class="info-item">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="person"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Customer name
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="person"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Customer name
         </ion-label>
         <ion-input formControlName="name" type="text" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="briefcase"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Business name
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="briefcase"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Business name
         </ion-label>
         <ion-input formControlName="businessname" type="text" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="business"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Business type
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="business"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Business type
         </ion-label>
         <ion-input [value]="businessType" type="text" [(ngModel)]="searchItem" (ionChange)="searchCategory()" [ngModelOptions]="{standalone: true}" (click)="openBusinessList()"></ion-input>
-        <ion-icon class="info-fields-icon-end" [style.color]="'#6C63FF'" slot="end" name="chevron-down"></ion-icon>
+        <ion-icon class="info-fields-icon-end" [style.color]="'#a43096'" slot="end" name="chevron-down"></ion-icon>
       </ion-item>
 
       <ion-item lines="full" class="info-item">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="phone-portrait-outline">
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="phone-portrait-outline">
         </ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Mobile</ion-label>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Mobile</ion-label>
         <ion-input formControlName="mobile" type="tel" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="chatbubble-ellipses"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Whatsapp</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="chatbubble-ellipses"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Whatsapp</ion-label>
         <ion-input formControlName="whatsapp" type="tel" required></ion-input>
       </ion-item>
 
       <ion-item lines="full" class="info-item">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="storefront"></ion-icon>
-        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#6C63FF'">*</sup>Address</ion-label>
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="storefront"></ion-icon>
+        <ion-label class="appcolor-grey" position="floating"><sup [style.color]="'#a43096'">*</sup>Address</ion-label>
         <ion-input formControlName="address" type="text" required></ion-input>
-        <ion-icon class="info-fields-icon-end" [style.color]="'#6C63FF'" slot="end" name="chevron-down"></ion-icon>
+        <ion-icon class="info-fields-icon-end" [style.color]="'#a43096'" slot="end" name="chevron-down"></ion-icon>
       </ion-item>
 
       <ion-item lines="none" class="info-item" (click)="imagePickAlert()">
-        <ion-icon class="info-fields-icon" [style.color]="'#6C63FF'" slot="start" name="camera"></ion-icon>
-        <ion-label class="label-fixed" [style.color]="'#6C63FF'" position="fixed">Take shop, business card or client
+        <ion-icon class="info-fields-icon" [style.color]="'#a43096'" slot="start" name="camera"></ion-icon>
+        <ion-label class="label-fixed" [style.color]="'#a43096'" position="fixed">Take shop, business card or client
           image</ion-label>
       </ion-item>
     </form>
@@ -72,7 +72,7 @@
 
       <ion-col size="10" class="no-padding search-col">
         <ion-button fill="outline" expand="block" class="newInv-btn invoice-shadow"
-        [style.--color]="'#6C63FF'" [style.--border-color]="'#6C63FF'" (click)="addBusinessType()">
+        [style.--color]="'#a43096'" [style.--border-color]="'#a43096'" (click)="addBusinessType()">
           <ion-icon slot="start" name="add"></ion-icon>
           Add Business Type
         </ion-button>
@@ -120,23 +120,23 @@
 <ion-footer>
   <ion-row>
     <ion-col size="3">
-      <ion-button fill="outline" expand="block" class="newInv-btn" [style.--color]="'#6C63FF'"
-        [style.--border-color]="'#6C63FF'" (click)="openPage('/home')">
-        <ion-icon slot="start" [style.color]="'#6C63FF'" name="chevron-back-outline"></ion-icon>
+      <ion-button fill="outline" expand="block" class="newInv-btn" [style.--color]="'#a43096'"
+        [style.--border-color]="'#a43096'" (click)="openPage('/home')">
+        <ion-icon slot="start" [style.color]="'#a43096'" name="chevron-back-outline"></ion-icon>
         Back
       </ion-button>
     </ion-col>
 
     <ion-col size="3">
       <ion-button expand="block" class="newInv-btn" (click)="editData()" [style.--color]="'#ffffff'"
-        [style.--border-color]="'#6C63FF'">
+        [style.--border-color]="'#a43096'">
         Edit
       </ion-button>
     </ion-col>
 
     <ion-col size="6">
       <ion-button expand="block" class="newInv-btn" (click)="openPage('/add-vendors')" [style.--color]="'#ffffff'"
-        [style.--border-color]="'#6C63FF'">
+        [style.--border-color]="'#a43096'">
         Back to Entry
       </ion-button>
     </ion-col>

@@ -18,6 +18,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +30,7 @@ import { Base64 } from '@ionic-native/base64/ngx';
     AppRoutingModule
   ],
   providers: [ SQLite, File, Camera, Base64, FilePath, FileChooser, Media,
-    GlobalVariable,
+    GlobalVariable, Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],
